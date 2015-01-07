@@ -1,0 +1,16 @@
+[
+{
+  "modid": "oredictconv",
+  "name": "Ore Dictionary Converter",
+  "description": "Example placeholder mod.",
+  "version": "v1.0",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["MattDahEpic"],
+  "credits": "OreDictionary for existing, orion15 on the Minecraft Forums for the idea",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
