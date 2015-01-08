@@ -1,6 +1,7 @@
 package com.mattdahepic.oredictconv;
 
 import com.mattdahepic.oredictconv.command.CommandConfig;
+import com.mattdahepic.oredictconv.config.Config;
 import com.mattdahepic.oredictconv.log.Log;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
@@ -18,7 +19,7 @@ public class OreDictConv {
 
     public static final String MODID = "oredictconv";
     public static final String NAME = "Ore Dictionary Converter";
-    public static final String VERSION = "v1.0";
+    public static final String VERSION = "v0.3-dev";
 
     @SidedProxy(clientSide = "com.mattdahepic.oredictconv.client.ClientProxy",serverSide = "com.mattdahepic.oredictconv.CommonProxy")
     public static CommonProxy proxy;
@@ -28,7 +29,7 @@ public class OreDictConv {
     @Mod.EventHandler
     public void preInit (FMLPreInitializationEvent event) {
         FMLCommonHandler.instance().bus().register(instance);
-        //TODO: Config.load();
+        Config.load(event);
     }
     @Mod.EventHandler
     public void init (FMLInitializationEvent event) {

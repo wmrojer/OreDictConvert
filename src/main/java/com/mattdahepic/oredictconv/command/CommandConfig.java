@@ -1,5 +1,6 @@
 package com.mattdahepic.oredictconv.command;
 
+import com.mattdahepic.oredictconv.log.Log;
 import cpw.mods.fml.common.FMLCommonHandler;
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
@@ -19,6 +20,7 @@ public class CommandConfig implements ICommand {
         this.tabCompletionOptions = new ArrayList();
         this.tabCompletionOptions.add("detect");
         this.tabCompletionOptions.add("dump");
+        this.tabCompletionOptions.add("find");
         this.tabCompletionOptions.add("help");
     }
     @Override
@@ -41,24 +43,36 @@ public class CommandConfig implements ICommand {
     public void processCommand (ICommandSender iCommandSender, String[] inputString) {
         ChatComponentText returnText = new ChatComponentText("");
         if (inputString.length == 0) { // no input command
-            returnText.appendText("Use \"/odc help\" for useage help.");
-            iCommandSender.addChatMessage(returnText);
+            Log.playerChat("Use \"/odc help\" for useage help.");
             return;
         } else { //message contains data
             ItemStack item = null;
             if (iCommandSender instanceof EntityPlayerMP) { //if the command runner is a player, get the item they are holding
                 item = ((EntityPlayerMP) iCommandSender).inventory.getCurrentItem();
             }
-            if (inputString[0].equalsIgnoreCase("detect") && item != null) {
-                Detect.detect(item);
-                return;
+            if (inputString[0].equalsIgnoreCase("detect")) {
+                if (item != null) {
+                    Detect.detect(item);
+                    return;
+                } else {
+                    Log.playerChat("You\'re not holding an item!");
+                    return;
+                }
             } else if (inputString[0].equalsIgnoreCase("dump")) {
                 DumpOreDict.dump();
                 return;
+            } else if (inputString[0].equalsIgnoreCase("find")) {
+                if (inputString.length < 2) {
+                    Log.playerChat("You didn\'t specify a Ore Dictionary name! Use \"/odc help\" for help.");
+                    return;
+                }
+                Find.find(inputString[1]);
+                return;
             } else if (inputString[0].equalsIgnoreCase("help")) {
-                returnText.appendText("To get the ore dictionary entries of the item currently held, use \"/odc detect\"\n");
-                returnText.appendText("To dump all ore dictionary entries to the chat and log, use \"/odc dump\"");
-                iCommandSender.addChatMessage(returnText);
+                Log.playerChat("To get the ore dictionary entries of the item currently held, use \"/odc detect\".");
+                Log.playerChat("To dump all ore dictionary entries to the chat and log, use \"/odc dump\".");
+                Log.playerChat("To find all items listed as the specified Ore Dictionary name, use \"/odc find <oreDictName>\".");
+                return;
             }
         }
     }

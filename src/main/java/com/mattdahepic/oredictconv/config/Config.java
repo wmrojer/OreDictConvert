@@ -1,9 +1,11 @@
 package com.mattdahepic.oredictconv.config;
 
+import com.mattdahepic.oredictconv.OreDictConv;
 import com.mattdahepic.oredictconv.log.Log;
+import cpw.mods.fml.client.event.ConfigChangedEvent;
+import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.common.config.Configuration;
-
-import java.util.ArrayList;
 
 /*
 Sample Config:
@@ -12,8 +14,40 @@ String List:
  */
 
 public class Config {
-    public static String[] oreValues = null;
+    public static String[] oreValues = {"oreIron=minecraft:iron_ore","oreGold=minecraft:gold_ore"};
     public static Configuration config;
+
+    public static void load (FMLPreInitializationEvent event) {
+        OreDictConv.configFile = new Configuration(event.getSuggestedConfigurationFile());
+        syncConfig();
+    }
+
+    public static void syncConfig () {
+        try {
+            Config.processConfig(OreDictConv.configFile);
+        } catch (Exception e) {
+            Log.error("Error loading config file!");
+            e.printStackTrace();
+        } finally {
+            if (OreDictConv.configFile.hasChanged()) {
+                Log.info("Saving config file!");
+                OreDictConv.configFile.save();
+            }
+        }
+    }
+    @SubscribeEvent
+    public void OnConfigChanged (ConfigChangedEvent.OnConfigChangedEvent event) {
+        if (event.modID.equals(OreDictConv.MODID)) {
+            Log.info("Updating config!");
+            syncConfig();
+        }
+    }
+
+    public static void processConfig (Configuration config) {
+        oreValues = config.getStringList("oreValues",Configuration.CATEGORY_GENERAL,oreValues,"Place your ores here in format \"oreDictName=modid:itemName\". Use the ingame command /odc to get the ore dict names.");
+    }
+
+
     public static String getModId (String oreDictName) {
         for (int i = 0; i < oreValues.length; i++) { //for each ore dictionary entry in config, test if the entry is the same
             if (oreValues[i].startsWith(oreDictName)) { //if the beginning of the entry is this ore dictionary
