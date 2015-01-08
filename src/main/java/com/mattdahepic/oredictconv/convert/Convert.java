@@ -2,7 +2,6 @@ package com.mattdahepic.oredictconv.convert;
 
 import com.mattdahepic.oredictconv.config.Config;
 import com.mattdahepic.oredictconv.log.Log;
-import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
@@ -25,12 +24,18 @@ public class Convert {
                         for (int k = 0; k < oreIds.length; k++) { //k = how many ore dict entries this item is registered to
                             Log.info("  Checking ore dictionary entry " + k + " for this item.");
                             String oreName = OreDictionary.getOreName(oreIds[k]);
-                            if (oreName == oreValues[j]) {
+                            if (oreValues[j].startsWith(oreName)) {
                                 Log.info("   This slot matches this config entry! Converting!");
-                                for (int l = 0; l < inventoryPlayer.getStackInSlot(i).stackSize; l++) { //l = amount of items in slot that matches the ore value
-                                    Log.info("Converted item!");
+                                int tempSize = inventoryPlayer.getStackInSlot(i).stackSize;
+                                for (int l = 1; l <= tempSize; l++) { //l = amount of items in slot that matches the ore value
+                                    Log.info("    Converted item! Round " + l);
                                     inventoryPlayer.decrStackSize(i, 1);
-                                    inventoryPlayer.addItemStackToInventory(new ItemStack(GameRegistry.findItem(Config.getModId(oreName), Config.getItem(oreName))));
+                                    //TODO: PACKETS!
+                                    ItemStack tempItem = Config.getItem(oreName);
+                                    if (tempItem != null) {
+                                        inventoryPlayer.addItemStackToInventory(Config.getItem(oreName));
+                                        //TODO: PACKETS!
+                                    }
                                 }
                             } else {
                                 Log.info("  Ore dictionary entry " + k + " for this item does not match config entry " + j + ".");

@@ -5,6 +5,8 @@ import com.mattdahepic.oredictconv.log.Log;
 import cpw.mods.fml.client.event.ConfigChangedEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.config.Configuration;
 
 /*
@@ -68,7 +70,7 @@ public class Config {
         Log.debug("modid not found!");
         return null;
     }
-    public static String getItem (String oreDictName) {
+    /*public static String getItem (String oreDictName) {
         if (getModId(oreDictName) != null) {
             for (int i = 0; i < oreValues.length; i++) {
                 if (oreValues[i].startsWith(oreDictName)) {
@@ -87,6 +89,26 @@ public class Config {
             return null;
         }
         Log.debug("abandoning search for item name as mod name == null.");
+        return null;
+    }*/
+    public static ItemStack getItem (String oreDictName) {
+        for (int i = 0; i < oreValues.length; i++) { //for each entry in the config
+            if (oreValues[i].startsWith(oreDictName + "=")) { //if the entry starts with the same value
+                if (oreValues[i].length() > oreDictName.length()+1) { //and it presumably includes an entry
+                    String temp = oreValues[i];
+                    temp = temp.substring(oreDictName.length()+1,temp.length()); //TODO: include = sign
+                    Item tempItem = (Item) Item.itemRegistry.getObject(temp);
+                    if (tempItem != null) { //is item illegal?
+                        return new ItemStack(tempItem);
+                    } else {
+                        Log.playerChat("Config incorrectly set convertable item for entry " + oreDictName + "! FIX IT.");
+                        Log.error("Config incorrectly set convertable item for entry " + oreDictName + "! FIX IT.");
+                        return null;
+                    }
+                }
+            }
+        }
+        //no entry matched
         return null;
     }
 }
