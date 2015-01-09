@@ -3,6 +3,7 @@ package com.mattdahepic.oredictconv;
 import com.mattdahepic.oredictconv.command.CommandConfig;
 import com.mattdahepic.oredictconv.config.Config;
 import com.mattdahepic.oredictconv.log.Log;
+import com.mattdahepic.oredictconv.network.PacketHandler;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.SidedProxy;
@@ -34,6 +35,7 @@ public class OreDictConv {
     @Mod.EventHandler
     public void init (FMLInitializationEvent event) {
         proxy.registerKeys();
+        PacketHandler.initPackets();
     }
     @Mod.EventHandler
     public void postInit (FMLPostInitializationEvent event) {

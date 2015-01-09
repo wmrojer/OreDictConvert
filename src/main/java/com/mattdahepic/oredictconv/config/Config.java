@@ -96,7 +96,7 @@ public class Config {
             if (oreValues[i].startsWith(oreDictName + "=")) { //if the entry starts with the same value
                 if (oreValues[i].length() > oreDictName.length()+1) { //and it presumably includes an entry
                     String temp = oreValues[i];
-                    temp = temp.substring(oreDictName.length()+1,temp.length()); //TODO: include = sign
+                    temp = temp.substring(oreDictName.length()+1,temp.length());
                     Item tempItem = (Item) Item.itemRegistry.getObject(temp);
                     if (tempItem != null) { //is item illegal?
                         return new ItemStack(tempItem);

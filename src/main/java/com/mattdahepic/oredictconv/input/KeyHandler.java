@@ -1,11 +1,13 @@
 package com.mattdahepic.oredictconv.input;
 
-import com.mattdahepic.oredictconv.convert.Convert;
 import com.mattdahepic.oredictconv.log.Log;
+import com.mattdahepic.oredictconv.network.ODCPacket;
+import com.mattdahepic.oredictconv.network.PacketHandler;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.InputEvent;
+import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraftforge.common.MinecraftForge;
 import org.lwjgl.input.Keyboard;
@@ -29,10 +31,10 @@ public class KeyHandler {
         handleConvert();
     }
     private void handleConvert () {
-        //Log.debug("Recieved KeyInputEvent!");
         if (convertKey.getIsKeyPressed()) {
             Log.playerChat("Beginning conversion!");
-            Convert.convert();
+            IMessage msg = new ODCPacket.ODCMessage();
+            PacketHandler.net.sendToServer(msg);
         }
     }
     public boolean dummyKeyHandlerLoad () {
