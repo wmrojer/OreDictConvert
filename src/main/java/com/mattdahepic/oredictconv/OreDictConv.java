@@ -39,7 +39,7 @@ public class OreDictConv {
     }
     @Mod.EventHandler
     public void postInit (FMLPostInitializationEvent event) {
-        Log.info("Ready to convert!");
+        Log.info("Ready to convert with " + Config.oreValues.length + " entries in the config!");
     }
     @Mod.EventHandler
     public void serverStarting (FMLServerStartingEvent event) {

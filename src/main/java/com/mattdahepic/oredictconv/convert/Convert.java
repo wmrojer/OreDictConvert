@@ -13,7 +13,7 @@ public class Convert {
     public static void register () {}
     //@SideOnly(Side.SERVER)
     public static void convert (EntityPlayerMP player) {
-        if (!player.worldObj.isRemote) {
+        if (!player.worldObj.isRemote) { //if on server
             InventoryPlayer inventoryPlayer = player.inventory;
             if (oreValues != null) { //if config is empty: OH NO! GOD NO! WHY! WHY WOULD SOMEONE DO THAT!
                 for (int i = 0; i < inventoryPlayer.getSizeInventory(); i++) { //i = inventory slot of player
