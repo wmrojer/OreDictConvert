@@ -30,15 +30,17 @@ public class Convert {
                                     Log.info("   This slot matches this config entry! Converting!");
                                     int tempSize = inventoryPlayer.getStackInSlot(i).stackSize;
                                     for (int l = 1; l <= tempSize; l++) { //l = amount of items in slot that matches the ore value
-                                        Log.info("    Converted item! Round " + l);
-                                        inventoryPlayer.decrStackSize(i, 1);
                                         ItemStack tempItem = Config.getItem(oreName);
                                         if (tempItem != null) {
+                                            Log.info("    Converted item! Round " + l);
+                                            inventoryPlayer.decrStackSize(i, 1);
                                             inventoryPlayer.addItemStackToInventory(Config.getItem(oreName));
+                                        } else {
+                                            Log.warn("   Config item for entry " + oreName + " is invalid. Not converting item.");
                                         }
                                     }
                                 } else {
-                                    Log.info("  Ore dictionary entry " + k + " for this item does not match config entry " + j + ".");
+                                    Log.warn("  Ore dictionary entry " + k + " for this item does not match config entry " + j + ".");
                                 }
                             }
                         }
