@@ -16,7 +16,7 @@ String List:
  */
 
 public class Config {
-    public static String[] oreValues = {"oreIron=minecraft:iron_ore","oreGold=minecraft:gold_ore"};
+    public static String[] oreValues = {"oreIron=minecraft:iron_ore|0","oreGold=minecraft:gold_ore|0"};
     public static Configuration config;
 
     public static void load (FMLPreInitializationEvent event) {
@@ -46,7 +46,7 @@ public class Config {
     }
 
     public static void processConfig (Configuration config) {
-        oreValues = config.getStringList("oreValues",Configuration.CATEGORY_GENERAL,oreValues,"Place your ores here in format \"oreDictName=modid:itemName\". Use the ingame command /odc to get the ore dict names.");
+        oreValues = config.getStringList("oreValues",Configuration.CATEGORY_GENERAL,oreValues,"Place your ores here in format \"oreDictName=modid:itemName|metaValue\". Use the ingame command /odc to get the ore dict names.");
     }
 
     public static ItemStack getItem (String oreDictName) {
@@ -54,12 +54,28 @@ public class Config {
             if (oreValues[i].startsWith(oreDictName + "=")) { //if the entry starts with the same value
                 if (oreValues[i].length() > oreDictName.length()+1) { //and it presumably includes an entry
                     String temp = oreValues[i];
-                    temp = temp.substring(oreDictName.length()+1,temp.length());
-                    Item tempItem = (Item) Item.itemRegistry.getObject(temp);
+                    //get the data value
+                    int colonLocation = 0;
+                    String name = null;
+                    for (int j = 0; j < temp.length(); j++) { //get where data value divider is
+                        if (temp.charAt(j) == '|') {
+                            colonLocation = j;
+                            name = temp.substring(oreDictName.length()+1,colonLocation); //get item name if data value exists
+                        }
+                    }
+                    if (name == null) {
+                        return null;
+                    }
+                    Item tempItem = (Item) Item.itemRegistry.getObject(name); //get actual item from name
+                    int dataValue;
+                    try {
+                        dataValue = Integer.parseInt(temp.substring(colonLocation+1,temp.length())); //see if the entry ACTUALLY ends with a number
+                    } catch (Exception e) {
+                        dataValue = 0;
+                    }
                     if (tempItem != null) { //is item illegal?
-                        return new ItemStack(tempItem);
+                        return new ItemStack(tempItem,1,dataValue);
                     } else {
-                        Log.playerChat("Config incorrectly set convertable item for entry " + oreDictName + "! FIX IT.");
                         Log.error("Config incorrectly set convertable item for entry " + oreDictName + "! FIX IT.");
                         return null;
                     }
