@@ -62,4 +62,14 @@ processResources
     }
 }
 
+task devJar(type: Jar) {
+    from sourceSets.main.output
+    classifier = 'dev'
+}
+
+
+artifacts {
+    archives devJar
+}
+
 sourceSets { main { output.resourcesDir = output.classesDir } }
