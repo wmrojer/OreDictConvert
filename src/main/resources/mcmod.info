@@ -3,7 +3,7 @@
   "modid": "oredictconv",
   "name": "Ore Dictionary Converter",
   "description": "Converts specified ore dictionary items on keybinding.",
-  "version": "v0.5",
+  "version": "1.0",
   "mcversion": "${mcversion}",
   "url": "",
   "updateUrl": "",
