@@ -1,4 +1,4 @@
-package com.mattdahepic.oredictconv.command;
+package com.mattdahepic.hotkeyoredictconv.command;
 
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.ChatComponentText;

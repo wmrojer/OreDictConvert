@@ -1,7 +1,7 @@
-package com.mattdahepic.oredictconv.client;
+package com.mattdahepic.hotkeyoredictconv.client;
 
-import com.mattdahepic.oredictconv.CommonProxy;
-import com.mattdahepic.oredictconv.input.KeyHandler;
+import com.mattdahepic.hotkeyoredictconv.CommonProxy;
+import com.mattdahepic.hotkeyoredictconv.input.KeyHandler;
 
 public class ClientProxy extends CommonProxy {
     @Override

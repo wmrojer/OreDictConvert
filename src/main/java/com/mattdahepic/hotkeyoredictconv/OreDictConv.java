@@ -1,8 +1,8 @@
-package com.mattdahepic.oredictconv;
+package com.mattdahepic.hotkeyoredictconv;
 
-import com.mattdahepic.oredictconv.command.CommandConfig;
-import com.mattdahepic.oredictconv.config.Config;
-import com.mattdahepic.oredictconv.network.PacketHandler;
+import com.mattdahepic.hotkeyoredictconv.command.CommandConfig;
+import com.mattdahepic.hotkeyoredictconv.config.Config;
+import com.mattdahepic.hotkeyoredictconv.network.PacketHandler;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.SidedProxy;
@@ -14,14 +14,14 @@ import net.minecraftforge.common.config.Configuration;
 
 @Mod(modid = OreDictConv.MODID,name = OreDictConv.NAME,version = OreDictConv.VERSION)
 public class OreDictConv {
-    @Mod.Instance("oredictconv")
+    @Mod.Instance("hotkeyoredictconv")
     public static OreDictConv instance;
 
-    public static final String MODID = "oredictconv";
-    public static final String NAME = "Ore Dictionary Converter";
-    public static final String VERSION = "1.0";
+    public static final String MODID = "hotkeyoredictconv";
+    public static final String NAME = "Hotkey Ore Dictionary Converter";
+    public static final String VERSION = "1.1";
 
-    @SidedProxy(clientSide = "com.mattdahepic.oredictconv.client.ClientProxy",serverSide = "com.mattdahepic.oredictconv.CommonProxy")
+    @SidedProxy(clientSide = "com.mattdahepic.hotkeyoredictconv.client.ClientProxy",serverSide = "com.mattdahepic.hotkeyoredictconv.CommonProxy")
     public static CommonProxy proxy;
 
     public static Configuration configFile;

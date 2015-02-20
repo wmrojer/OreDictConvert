@@ -1,6 +1,6 @@
-package com.mattdahepic.oredictconv.log;
+package com.mattdahepic.hotkeyoredictconv.log;
 
-import com.mattdahepic.oredictconv.OreDictConv;
+import com.mattdahepic.hotkeyoredictconv.OreDictConv;
 import cpw.mods.fml.common.FMLLog;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;

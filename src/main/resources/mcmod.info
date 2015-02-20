@@ -1,9 +1,9 @@
 [
 {
-  "modid": "oredictconv",
-  "name": "Ore Dictionary Converter",
+  "modid": "hotkeyoredictconv",
+  "name": "Hotkey Ore Dictionary Converter",
   "description": "Converts specified ore dictionary items on keybinding.",
-  "version": "1.0",
+  "version": "1.1",
   "mcversion": "${mcversion}",
   "url": "",
   "updateUrl": "",

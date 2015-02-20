@@ -1,8 +1,8 @@
-package com.mattdahepic.oredictconv.input;
+package com.mattdahepic.hotkeyoredictconv.input;
 
-import com.mattdahepic.oredictconv.log.Log;
-import com.mattdahepic.oredictconv.network.ODCPacket;
-import com.mattdahepic.oredictconv.network.PacketHandler;
+import com.mattdahepic.hotkeyoredictconv.log.Log;
+import com.mattdahepic.hotkeyoredictconv.network.ODCPacket;
+import com.mattdahepic.hotkeyoredictconv.network.PacketHandler;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;

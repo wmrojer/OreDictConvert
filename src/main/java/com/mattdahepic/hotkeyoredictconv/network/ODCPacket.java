@@ -1,8 +1,8 @@
-package com.mattdahepic.oredictconv.network;
+package com.mattdahepic.hotkeyoredictconv.network;
 
 //props to diesieben07 on #minecraftforge irc
 
-import com.mattdahepic.oredictconv.convert.Convert;
+import com.mattdahepic.hotkeyoredictconv.convert.Convert;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;

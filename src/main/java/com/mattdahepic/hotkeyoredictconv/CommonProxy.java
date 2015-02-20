@@ -1,4 +1,4 @@
-package com.mattdahepic.oredictconv;
+package com.mattdahepic.hotkeyoredictconv;
 
 public class CommonProxy {
     public void registerRenderers() {}

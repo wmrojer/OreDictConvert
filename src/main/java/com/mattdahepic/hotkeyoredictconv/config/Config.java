@@ -1,7 +1,7 @@
-package com.mattdahepic.oredictconv.config;
+package com.mattdahepic.hotkeyoredictconv.config;
 
-import com.mattdahepic.oredictconv.OreDictConv;
-import com.mattdahepic.oredictconv.log.Log;
+import com.mattdahepic.hotkeyoredictconv.OreDictConv;
+import com.mattdahepic.hotkeyoredictconv.log.Log;
 import cpw.mods.fml.client.event.ConfigChangedEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;

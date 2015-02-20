@@ -1,4 +1,4 @@
-package com.mattdahepic.oredictconv.command;
+package com.mattdahepic.hotkeyoredictconv.command;
 
 import cpw.mods.fml.common.FMLCommonHandler;
 import net.minecraft.command.ICommand;

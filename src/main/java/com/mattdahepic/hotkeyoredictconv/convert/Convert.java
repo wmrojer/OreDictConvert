@@ -1,6 +1,6 @@
-package com.mattdahepic.oredictconv.convert;
+package com.mattdahepic.hotkeyoredictconv.convert;
 
-import com.mattdahepic.oredictconv.config.Config;
+import com.mattdahepic.hotkeyoredictconv.config.Config;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
