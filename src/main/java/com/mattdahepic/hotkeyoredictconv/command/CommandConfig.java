@@ -11,9 +11,10 @@ import net.minecraft.util.EnumChatFormatting;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings({ "unchecked", "rawtypes" })
 public class CommandConfig implements ICommand {
-    private List aliases, tabCompletionOptions;
-    public CommandConfig () {
+	private List aliases, tabCompletionOptions;
+	public CommandConfig () {
         this.aliases = new ArrayList();
         this.aliases.add("odc");
         this.tabCompletionOptions = new ArrayList();
@@ -21,6 +22,7 @@ public class CommandConfig implements ICommand {
         this.tabCompletionOptions.add("dump");
         this.tabCompletionOptions.add("find");
         this.tabCompletionOptions.add("help");
+        this.tabCompletionOptions.add("add");
     }
     @Override
     public int compareTo (Object arg0) {
@@ -40,7 +42,6 @@ public class CommandConfig implements ICommand {
     }
     @Override
     public void processCommand (ICommandSender iCommandSender, String[] inputString) {
-        ChatComponentText returnText = new ChatComponentText("");
         if (inputString.length == 0) { // no input command
             iCommandSender.addChatMessage(new ChatComponentText("Use \"/odc help\" for useage help."));
             return;
@@ -52,6 +53,14 @@ public class CommandConfig implements ICommand {
             if (inputString[0].equalsIgnoreCase("detect")) {
                 if (item != null) {
                     Detect.detect(iCommandSender,item);
+                    return;
+                } else {
+                    iCommandSender.addChatMessage(new ChatComponentText("You\'re not holding an item!"));
+                    return;
+                }
+            } else if (inputString[0].equalsIgnoreCase("add")) {
+                if (item != null) {
+                    Add.add(iCommandSender,item);
                     return;
                 } else {
                     iCommandSender.addChatMessage(new ChatComponentText("You\'re not holding an item!"));
@@ -69,6 +78,7 @@ public class CommandConfig implements ICommand {
                 return;
             } else if (inputString[0].equalsIgnoreCase("help")) {
                 iCommandSender.addChatMessage(new ChatComponentText("To get the ore dictionary entries of the item currently held, use \"/odc detect\"."));
+                iCommandSender.addChatMessage(new ChatComponentText("To add the item currently held as the default for it's ore dictinary, use \"/odc add\"."));
                 iCommandSender.addChatMessage(new ChatComponentText("To dump all ore dictionary entries to the chat and log, use \"/odc dump\"."));
                 iCommandSender.addChatMessage(new ChatComponentText("To find all items listed as the specified Ore Dictionary name, use \"/odc find <oreDictName>\"."));
                 return;
@@ -86,7 +96,7 @@ public class CommandConfig implements ICommand {
         }
         return false;
     }
-    @Override
+	@Override
     public List addTabCompletionOptions(ICommandSender iCommandSender, String[] inputString) {
         return this.tabCompletionOptions;
     }

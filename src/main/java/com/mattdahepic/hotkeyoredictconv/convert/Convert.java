@@ -1,57 +1,54 @@
 package com.mattdahepic.hotkeyoredictconv.convert;
 
 import com.mattdahepic.hotkeyoredictconv.config.Config;
+import com.mattdahepic.hotkeyoredictconv.log.Log;
+
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ChatComponentText;
 import net.minecraftforge.oredict.OreDictionary;
 
 public class Convert {
-    public static String[] oreValues = Config.oreValues;
     private Convert () {}
-    public static void register () {}
+
     //@SideOnly(Side.SERVER)
     public static void convert (EntityPlayerMP player) {
         if (!player.worldObj.isRemote) { //if on server
-            InventoryPlayer inventoryPlayer = player.inventory;
-            if (oreValues != null) { //if config is empty: OH NO! GOD NO! WHY! WHY WOULD SOMEONE DO THAT!
+        	int numConverted = 0;
+            if (Config.oreMap != null && Config.oreMap.size() > 0) { //if config is empty: OH NO! GOD NO! WHY! WHY WOULD SOMEONE DO THAT!
+                InventoryPlayer inventoryPlayer = player.inventory;
                 for (int i = 0; i < inventoryPlayer.getSizeInventory(); i++) { //i = inventory slot of player
-                    //Log.info("Checking inventory slot " + i);
-                    if (inventoryPlayer.getStackInSlot(i) != null) {
-                        //Log.info("Slot " + i + " contains item.");
-                        for (int j = 0; j < oreValues.length; j++) { //j = how many ore values in config
-                            //Log.info(" Checking slot for config entry " + j);
-                            int[] oreIds = OreDictionary.getOreIDs(inventoryPlayer.getStackInSlot(i));
-                            for (int k = 0; k < oreIds.length; k++) { //k = how many ore dict entries this item is registered to
-                                //Log.info("  Checking ore dictionary entry " + k + " for this item.");
-                                String oreName = OreDictionary.getOreName(oreIds[k]);
-                                if (oreValues[j].startsWith(oreName)) {
-                                    //Log.info("   This slot matches this config entry! Converting!");
-                                    int tempSize = inventoryPlayer.getStackInSlot(i).stackSize;
-                                    for (int l = 1; l <= tempSize; l++) { //l = amount of items in slot that matches the ore value
-                                        ItemStack tempItem = Config.getItem(oreName);
-                                        if (tempItem != null) {
-                                            //Log.info("    Converted item! Round " + l);
-                                            inventoryPlayer.decrStackSize(i, 1);
-                                            inventoryPlayer.addItemStackToInventory(Config.getItem(oreName));
-                                        } else {
-                                            //Log.warn("    Config item for entry " + oreName + " is invalid. Not converting item.");
-                                        }
-                                    }
-                                } else {
-                                    //Log.warn("  Ore dictionary entry " + k + " for this item does not match config entry " + j + ".");
-                                }
+                	ItemStack curStack = inventoryPlayer.getStackInSlot(i);
+                    if (curStack != null) {
+                        int[] oreIds = OreDictionary.getOreIDs(curStack);
+                        for (int k = 0; k < oreIds.length; k++) { //k = how many ore dict entries this item is registered to
+                            String oreName = OreDictionary.getOreName(oreIds[k]);
+                            if (Config.debug) 
+                            	Log.info("Checking ore dictionary entry " + oreName + " for " + Item.itemRegistry.getNameForObject(curStack.getItem()) + ";" + curStack.getItemDamage() + "in slot " + i );
+                            int tempSize = curStack.stackSize;
+                            ItemStack tempItem = Config.getItem(oreName, tempSize);
+                            if (tempItem != null) {
+                            	if (Config.debug)
+                            		Log.info("Got " + Item.itemRegistry.getNameForObject(tempItem.getItem()) + ";" + tempItem.getItemDamage() + " for ore dictionary entry " + oreName);
+                            	if (!tempItem.isItemEqual(curStack)) {
+                            		if (Config.debug)
+                            			Log.info("Converting " + tempSize + " " + Item.itemRegistry.getNameForObject(curStack.getItem()) + ";" + curStack.getItemDamage() + " in slot " + i +  
+                            					 " to " + Item.itemRegistry.getNameForObject(tempItem.getItem()) + ";" + tempItem.getItemDamage());
+                                    inventoryPlayer.decrStackSize(i, tempSize);
+                                    inventoryPlayer.addItemStackToInventory(tempItem);
+                                    numConverted += tempSize; 
+                                    break;
+                            	}
                             }
                         }
-                    } else {
-                        //Log.info("Slot " + i + " empty!");
                     }
                 }
-            } else {
-                //Log.warn("No ore dictionary convertable items defined in config!");
             }
-        } else {
-            //Log.error("Attempting to convert on client! Not Allowed!");
+            if (Config.debug) {
+            	player.addChatMessage(new ChatComponentText("Converted " + numConverted + " items!"));
+            }
         }
     }
 }

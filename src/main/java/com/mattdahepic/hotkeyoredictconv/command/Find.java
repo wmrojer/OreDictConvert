@@ -14,7 +14,7 @@ public class Find {
         if (!itemsUnderOreDict.isEmpty()) {
             commandSender.addChatMessage(new ChatComponentText("Ore names under entry " + oreDictName + " are:"));
             for (int i = 0; i < itemsUnderOreDict.size(); i++) {
-                commandSender.addChatMessage(new ChatComponentText(Item.itemRegistry.getNameForObject(itemsUnderOreDict.get(i).getItem()) + "|" + itemsUnderOreDict.get(i).getItemDamage()));
+                commandSender.addChatMessage(new ChatComponentText(Item.itemRegistry.getNameForObject(itemsUnderOreDict.get(i).getItem()) + ";" + itemsUnderOreDict.get(i).getItemDamage()));
             }
             return;
         } else {

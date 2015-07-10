@@ -1,8 +1,10 @@
 package com.mattdahepic.hotkeyoredictconv.input;
 
+import com.mattdahepic.hotkeyoredictconv.config.Config;
 import com.mattdahepic.hotkeyoredictconv.log.Log;
 import com.mattdahepic.hotkeyoredictconv.network.ODCPacket;
 import com.mattdahepic.hotkeyoredictconv.network.PacketHandler;
+
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -10,6 +12,7 @@ import cpw.mods.fml.common.gameevent.InputEvent;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraftforge.common.MinecraftForge;
+
 import org.lwjgl.input.Keyboard;
 
 public class KeyHandler {
@@ -32,7 +35,8 @@ public class KeyHandler {
     }
     private void handleConvert () {
         if (convertKey.getIsKeyPressed()) {
-            Log.playerChat("Beginning conversion!");
+        	if (Config.debug)
+        		Log.playerChat("Beginning conversion!");
             IMessage msg = new ODCPacket.ODCMessage();
             PacketHandler.net.sendToServer(msg);
         }

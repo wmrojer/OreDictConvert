@@ -2,7 +2,11 @@ package com.mattdahepic.hotkeyoredictconv.network;
 
 //props to diesieben07 on #minecraftforge irc
 
+import net.minecraft.util.ChatComponentText;
+
+import com.mattdahepic.hotkeyoredictconv.config.Config;
 import com.mattdahepic.hotkeyoredictconv.convert.Convert;
+
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;

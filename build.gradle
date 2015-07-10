@@ -17,14 +17,36 @@ buildscript {
 
 apply plugin: 'forge'
 
-version = "1.1"
-group= "com.mattdahepic.hotkeyoredictconv" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = "hotkeyoredictconv"
+ext {
+	//Import config file thanks to pahimar :D
+	ext.configFile = file "buildconfig.properties"
+
+}
+
+configFile.withReader {
+    // read config. it shall from now on be referenced as simply config or as project.config
+    def prop = new Properties()
+    prop.load(it)
+    ext.config = new ConfigSlurper().parse prop
+}
+
+if ("${System.env.CI}" == "true"){
+  version = config.mod_version + "-" + "${System.env.BUILD_NUMBER}"
+} else {
+  version = config.mod_version
+}
 
 minecraft {
-    version = "1.7.10-10.13.2.1264"
+    version = config.minecraft_version + "-" + config.forge_version
+
+	replaceIn "OreDictConv.java"
+	replace "@VERSION@", project.version
+
     runDir = "eclipse"
 }
+
+group= "com.mattdahepic.hotkeyoredictconv" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+archivesBaseName = "HotkeyOredictConv-"+minecraft.version
 
 dependencies {
     // you may put jars on which you depend on in ./libs

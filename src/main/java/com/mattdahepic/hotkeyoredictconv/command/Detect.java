@@ -14,7 +14,7 @@ public class Detect {
         for (int i = 0; i < oreDictEntryNumbers.length; i++) { //add names to array
             oreDictEntryNames[i] = OreDictionary.getOreName(oreDictEntryNumbers[i]);
         }
-        commandSender.addChatMessage(new ChatComponentText("Ore dictionary names for item \"" + Item.itemRegistry.getNameForObject(item.getItem()) + "|" + item.getItemDamage() + "\" are:"));
+        commandSender.addChatMessage(new ChatComponentText("Ore dictionary names for item \"" + Item.itemRegistry.getNameForObject(item.getItem()) + ";" + item.getItemDamage() + "\" are:"));
         for (int i = 0; i < oreDictEntryNames.length; i++) { //print names
             commandSender.addChatMessage(new ChatComponentText(oreDictEntryNames[i]));
         }
