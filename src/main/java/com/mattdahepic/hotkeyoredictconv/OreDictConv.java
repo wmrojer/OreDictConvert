@@ -23,7 +23,8 @@ public class OreDictConv {
     public static final String MODID = "hotkeyoredictconv";
     public static final String NAME = "Hotkey Ore Dictionary Converter";
     public static final String VERSION = "@VERSION@";
-
+    public static final String METASEPARATOR = "@";
+    
     @SidedProxy(clientSide = "com.mattdahepic.hotkeyoredictconv.client.ClientProxy",serverSide = "com.mattdahepic.hotkeyoredictconv.CommonProxy")
     public static CommonProxy proxy;
 

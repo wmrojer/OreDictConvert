@@ -39,9 +39,11 @@ public class Config {
     
     private static final String WHITELIST_COMMENT = "Only ore dictionary names that match any of these regexes can be added. " + REGEX_COMMENT;
     private static final String BLACKLIST_COMMENT = "Ore dictionary names that match any of these regexes can not be added. " + REGEX_COMMENT;
-
+    private static final String CURRENT_VERSION = "2";
+    private static String configVersion = null;
+    
     public static void load(FMLPreInitializationEvent event) {
-        config = new Configuration(event.getSuggestedConfigurationFile());
+        config = new Configuration(event.getSuggestedConfigurationFile(), CURRENT_VERSION);
         syncConfig();
     }
 
@@ -52,10 +54,10 @@ public class Config {
             Log.error("Error loading config file!");
             e.printStackTrace();
         } finally {
-            if (config.hasChanged()) {
+            if (config.hasChanged() || !CURRENT_VERSION.equalsIgnoreCase(configVersion)) {
             	if (debug)
             		Log.info("Saving config file!");
-                config.save();
+            	saveConfig();
             }
         }
     }
@@ -68,8 +70,17 @@ public class Config {
         }
     }
 
+    private static String replaceMetaSeparator(String part, String oldSeparator) {
+		String subparts[] = part.split(oldSeparator, 2);
+		if (subparts.length == 2) {
+			part = subparts[0] + OreDictConv.METASEPARATOR + subparts[1];
+		}
+		return part;
+    }
+    
 	public static void loadConfig(Configuration config) {
 
+		configVersion = config.getLoadedConfigVersion();
 		debug = config.get(Configuration.CATEGORY_GENERAL, "debug", false, "Enable debug output in the log").getBoolean(); // Load this first
 		
 		String whitelist_line = config.get(Configuration.CATEGORY_GENERAL, "whitelist", "^ore.*,^ingot.*,^dust.*,^block.*,^nugget.*",WHITELIST_COMMENT).getString();
@@ -77,12 +88,16 @@ public class Config {
 	    whitelist = CompilePatterns(whitelist_line);
 	    blacklist = CompilePatterns(blacklist_line);
 	    
-		oreValuesProp = config.get(Configuration.CATEGORY_GENERAL, "oreValues", oreValues, "Place your ores here in format \"oreDictName=modid:itemName;metaValue\". Use the ingame command /odc to get the ore dict names.");
+		oreValuesProp = config.get(Configuration.CATEGORY_GENERAL, "oreValues", oreValues, "Place your ores here in format \"oreDictName=modid:itemName"+OreDictConv.METASEPARATOR+"metaValue\". Use the ingame command /odc to get the ore dict names.");
         String[] tempArray = oreValuesProp.getStringList();
         oreMap = new HashMap<String, String>();
         for (int i=0; i<tempArray.length; i++) {
         	String parts[] = tempArray[i].split("=", 2);
-        	if (parts.length==2) {
+        	if (parts.length == 2) {
+        		if (!CURRENT_VERSION.equalsIgnoreCase(configVersion)) {
+        			parts[1] = replaceMetaSeparator(parts[1], "\\|");
+        			parts[1] = replaceMetaSeparator(parts[1], ";");
+        		}
         		if (debug)
         			Log.info("load config: "+parts[0]+"="+parts[1]);
         		if (isValidOreName(parts[0])) {
@@ -154,7 +169,7 @@ public class Config {
     public static ItemStack getItem(String oreDictName, int num) {
     	if (!oreMap.containsKey(oreDictName))
     		return null;
-    	String[] parts = oreMap.get(oreDictName).split(";", 2);
+    	String[] parts = oreMap.get(oreDictName).split(OreDictConv.METASEPARATOR, 2);
     	int meta = 0;
     	if ( parts.length > 1 ) {
     		try {
@@ -166,7 +181,7 @@ public class Config {
     	if ( tempItem != null ) {
     		return new ItemStack(tempItem, num, meta);
         } else {
-            Log.error("Config incorrectly set convertable item for entry " + oreDictName + "! FIX IT.");
+            Log.error("Config incorrectly set convertable item " + parts[0] + " for entry " + oreDictName + "! FIX IT.");
         }
     	return null;
     }

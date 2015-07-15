@@ -23,6 +23,7 @@ public class CommandConfig implements ICommand {
         this.tabCompletionOptions.add("find");
         this.tabCompletionOptions.add("help");
         this.tabCompletionOptions.add("add");
+        this.tabCompletionOptions.add("list");
     }
     @Override
     public int compareTo (Object arg0) {
@@ -69,6 +70,9 @@ public class CommandConfig implements ICommand {
             } else if (inputString[0].equalsIgnoreCase("dump")) {
                 DumpOreDict.dump(iCommandSender);
                 return;
+            } else if (inputString[0].equalsIgnoreCase("list")) {
+                ListOreDict.listOreDict(iCommandSender);
+                return;
             } else if (inputString[0].equalsIgnoreCase("find")) {
                 if (inputString.length < 2) {
                     iCommandSender.addChatMessage(new ChatComponentText("You didn\'t specify a Ore Dictionary name! Use \"/odc help\" for help."));
@@ -79,6 +83,7 @@ public class CommandConfig implements ICommand {
             } else if (inputString[0].equalsIgnoreCase("help")) {
                 iCommandSender.addChatMessage(new ChatComponentText("To get the ore dictionary entries of the item currently held, use \"/odc detect\"."));
                 iCommandSender.addChatMessage(new ChatComponentText("To add the item currently held as the default for it's ore dictinary, use \"/odc add\"."));
+                iCommandSender.addChatMessage(new ChatComponentText("To list current configuration to the chat and log, use \"/odc list\"."));
                 iCommandSender.addChatMessage(new ChatComponentText("To dump all ore dictionary entries to the chat and log, use \"/odc dump\"."));
                 iCommandSender.addChatMessage(new ChatComponentText("To find all items listed as the specified Ore Dictionary name, use \"/odc find <oreDictName>\"."));
                 return;

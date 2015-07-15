@@ -1,5 +1,6 @@
 package com.mattdahepic.hotkeyoredictconv.convert;
 
+import com.mattdahepic.hotkeyoredictconv.OreDictConv;
 import com.mattdahepic.hotkeyoredictconv.config.Config;
 import com.mattdahepic.hotkeyoredictconv.log.Log;
 
@@ -26,16 +27,16 @@ public class Convert {
                         for (int k = 0; k < oreIds.length; k++) { //k = how many ore dict entries this item is registered to
                             String oreName = OreDictionary.getOreName(oreIds[k]);
                             if (Config.debug) 
-                            	Log.info("Checking ore dictionary entry " + oreName + " for " + Item.itemRegistry.getNameForObject(curStack.getItem()) + ";" + curStack.getItemDamage() + "in slot " + i );
+                            	Log.info("Checking ore dictionary entry " + oreName + " for " + Item.itemRegistry.getNameForObject(curStack.getItem()) + OreDictConv.METASEPARATOR + curStack.getItemDamage() + "in slot " + i );
                             int tempSize = curStack.stackSize;
                             ItemStack tempItem = Config.getItem(oreName, tempSize);
                             if (tempItem != null) {
                             	if (Config.debug)
-                            		Log.info("Got " + Item.itemRegistry.getNameForObject(tempItem.getItem()) + ";" + tempItem.getItemDamage() + " for ore dictionary entry " + oreName);
+                            		Log.info("Got " + Item.itemRegistry.getNameForObject(tempItem.getItem()) + OreDictConv.METASEPARATOR + tempItem.getItemDamage() + " for ore dictionary entry " + oreName);
                             	if (!tempItem.isItemEqual(curStack)) {
                             		if (Config.debug)
-                            			Log.info("Converting " + tempSize + " " + Item.itemRegistry.getNameForObject(curStack.getItem()) + ";" + curStack.getItemDamage() + " in slot " + i +  
-                            					 " to " + Item.itemRegistry.getNameForObject(tempItem.getItem()) + ";" + tempItem.getItemDamage());
+                            			Log.info("Converting " + tempSize + " " + Item.itemRegistry.getNameForObject(curStack.getItem()) + OreDictConv.METASEPARATOR + curStack.getItemDamage() + " in slot " + i +  
+                            					 " to " + Item.itemRegistry.getNameForObject(tempItem.getItem()) + OreDictConv.METASEPARATOR + tempItem.getItemDamage());
                                     inventoryPlayer.decrStackSize(i, tempSize);
                                     inventoryPlayer.addItemStackToInventory(tempItem);
                                     numConverted += tempSize; 
